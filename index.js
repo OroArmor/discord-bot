@@ -1,16 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const express = require('express');
-
-const app = express()
-const port = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
-  res.send('This is not a real thing!')
-})
-
-app.listen(port, () => {
-})
 
 let commandPrefix = {
   prefix: "!"
