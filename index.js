@@ -10,10 +10,7 @@ let commandPrefix = {
 
 fs.readFile('./configs/config.txt', (err, file) => {
   if (err) {
-    if (err.errno == -4058)
       fs.writeFile('./configs/config.txt', `prefix: ${commandPrefix.prefix}`, (err, data) =>{});
-    else
-      throw err;
     return;
   }
   let data = file.toString('utf8').split(/\n/);
