@@ -30,7 +30,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   if (!msg.content.startsWith(commandPrefix.prefix)) {
-    if (msg.content.toLowerCase().includes("forge") && !msg.author.bot) {
+    if (msg.content.toLowerCase().match(/\bforge/) && !msg.author.bot && !msg.member.roles.cache.some(role => role.name === 'Mod Gang')) {
       msg.channel.send("Eww... Forge is bad!")
     }
     return;
@@ -58,7 +58,6 @@ client.on('message', msg => {
         return;
       }
     }
-    msg.channel.send("Command not known");
   }
 });
 
