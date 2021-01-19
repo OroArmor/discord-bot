@@ -79,6 +79,13 @@ module.exports = [{
         }
       }
     }
+  }, {
+    name: "issue",
+    desc: "How to create an issue",
+    permissions: any,
+    runs: (user, channel, tokens) => {
+      channel.send(new Discord.MessageEmbed().setTitle("Create an issue").setColor(0xff5500).setDescription("I won't support issues in here, so go to github, https://github.com/OroArmor/Netherite-Plus-Mod/issues, and place an issue. As well, if you dont provide a log or screenshots, I will not help you."));
+    }
   },
   //dud commands (dont run from here as they are special)
   {
