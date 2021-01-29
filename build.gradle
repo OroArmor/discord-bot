@@ -4,24 +4,27 @@
  * This is a general purpose Gradle build.
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
- plugins {
-     id 'java'
-     id "application"
-     id 'idea'
- }
+plugins {
+    id 'java'
+    id "application"
+    id 'idea'
+}
 
 run {
     main = "com.oroarmor.discord_bot.DiscordBot"
 }
 
- dependencies {
-     compile ('net.dv8tion:JDA:4.2.0_227') {
-         exclude module: 'opus-java'
-     }
- }
+task stage(dependsOn: ['build', 'clean', 'run'])
+build.mustRunAfter clean
+
+dependencies {
+    compile('net.dv8tion:JDA:4.2.0_227') {
+        exclude module: 'opus-java'
+    }
+}
 
 
- repositories {
-     jcenter()
-     mavenCentral()
- }
+repositories {
+    jcenter()
+    mavenCentral()
+}
