@@ -1,2 +1,5 @@
 node_modules/
 configs/config.txt
+.gradle/
+/build/
+/.idea/
