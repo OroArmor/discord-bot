@@ -18,7 +18,7 @@ startScripts {
     mainClassName("com.oroarmor.discord_bot.DiscordBot")
 }
 
-task stage(dependsOn: ['build', 'clean', 'run'])
+task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
 dependencies {
