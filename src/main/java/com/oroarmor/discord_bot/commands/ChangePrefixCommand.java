@@ -2,7 +2,6 @@ package com.oroarmor.discord_bot.commands;
 
 import java.util.List;
 
-import com.oroarmor.discord_bot.CommandManager;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 

@@ -1,4 +1,4 @@
-package com.oroarmor.discord_bot;
+package com.oroarmor.discord_bot.commands;
 
 import java.util.*;
 

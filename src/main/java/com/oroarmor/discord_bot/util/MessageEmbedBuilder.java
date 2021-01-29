@@ -6,7 +6,7 @@ import java.util.List;
 import net.dv8tion.jda.api.entities.EmbedType;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-public class MessageEmbededBuilder {
+public class MessageEmbedBuilder {
     private String url;
     private String title;
     private String description;
@@ -21,70 +21,70 @@ public class MessageEmbededBuilder {
     private MessageEmbed.ImageInfo image;
     private List<MessageEmbed.Field> fields;
 
-    public MessageEmbededBuilder() {
+    public MessageEmbedBuilder() {
     }
 
-    public MessageEmbededBuilder setUrl(String url) {
+    public MessageEmbedBuilder setUrl(String url) {
         this.url = url;
         return this;
     }
 
-    public MessageEmbededBuilder setTitle(String title) {
+    public MessageEmbedBuilder setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public MessageEmbededBuilder setDescription(String description) {
+    public MessageEmbedBuilder setDescription(String description) {
         this.description = description;
         return this;
     }
 
-    public MessageEmbededBuilder setType(EmbedType type) {
+    public MessageEmbedBuilder setType(EmbedType type) {
         this.type = type;
         return this;
     }
 
-    public MessageEmbededBuilder setTimestamp(OffsetDateTime timestamp) {
+    public MessageEmbedBuilder setTimestamp(OffsetDateTime timestamp) {
         this.timestamp = timestamp;
         return this;
     }
 
-    public MessageEmbededBuilder setColor(int color) {
+    public MessageEmbedBuilder setColor(int color) {
         this.color = color;
         return this;
     }
 
-    public MessageEmbededBuilder setThumbnail(MessageEmbed.Thumbnail thumbnail) {
+    public MessageEmbedBuilder setThumbnail(MessageEmbed.Thumbnail thumbnail) {
         this.thumbnail = thumbnail;
         return this;
     }
 
-    public MessageEmbededBuilder setSiteProvider(MessageEmbed.Provider siteProvider) {
+    public MessageEmbedBuilder setSiteProvider(MessageEmbed.Provider siteProvider) {
         this.siteProvider = siteProvider;
         return this;
     }
 
-    public MessageEmbededBuilder setAuthor(MessageEmbed.AuthorInfo author) {
+    public MessageEmbedBuilder setAuthor(MessageEmbed.AuthorInfo author) {
         this.author = author;
         return this;
     }
 
-    public MessageEmbededBuilder setVideoInfo(MessageEmbed.VideoInfo videoInfo) {
+    public MessageEmbedBuilder setVideoInfo(MessageEmbed.VideoInfo videoInfo) {
         this.videoInfo = videoInfo;
         return this;
     }
 
-    public MessageEmbededBuilder setFooter(MessageEmbed.Footer footer) {
+    public MessageEmbedBuilder setFooter(MessageEmbed.Footer footer) {
         this.footer = footer;
         return this;
     }
 
-    public MessageEmbededBuilder setImage(MessageEmbed.ImageInfo image) {
+    public MessageEmbedBuilder setImage(MessageEmbed.ImageInfo image) {
         this.image = image;
         return this;
     }
 
-    public MessageEmbededBuilder setFields(List<MessageEmbed.Field> fields) {
+    public MessageEmbedBuilder setFields(List<MessageEmbed.Field> fields) {
         this.fields = fields;
         return this;
     }

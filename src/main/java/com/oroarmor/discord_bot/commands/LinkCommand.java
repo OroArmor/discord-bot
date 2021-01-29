@@ -2,6 +2,7 @@ package com.oroarmor.discord_bot.commands;
 
 import java.util.List;
 
+import com.oroarmor.discord_bot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 
 public class LinkCommand extends Command {
@@ -16,7 +17,7 @@ public class LinkCommand extends Command {
 
     @Override
     public void run(Member member, MessageChannel channel, List<String> tokens) {
-        channel.sendMessage(new MessageEmbed(null, name, "OroArmor's " + name + " page: " + url, EmbedType.LINK, null, color, null, null, null, null, null, null, null)).queue();
+        channel.sendMessage(new MessageEmbedBuilder().setTitle(name).setDescription("OroArmor's " + name + " page: " + url).setColor(color).build()).queue();
     }
 
     @Override

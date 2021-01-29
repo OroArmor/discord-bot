@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.oroarmor.discord_bot.util.MessageEmbededBuilder;
+import com.oroarmor.discord_bot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class Mods {
@@ -63,6 +63,6 @@ public class Mods {
     }
 
     public static MessageEmbed getModEmbed(Mod mod) {
-        return new MessageEmbededBuilder().setTitle(mod.getName()).setDescription(mod.getExtendedDescription() + "\n\n" + mod.getLinks().entrySet().stream().map(entry -> "Find on " + entry.getKey() + " " + entry.getValue()).collect(Collectors.joining("\n"))).build();
+        return new MessageEmbedBuilder().setTitle(mod.getName()).setDescription(mod.getExtendedDescription() + "\n\n" + mod.getLinks().entrySet().stream().map(entry -> "Find on " + entry.getKey() + " " + entry.getValue()).collect(Collectors.joining("\n"))).build();
     }
 }
