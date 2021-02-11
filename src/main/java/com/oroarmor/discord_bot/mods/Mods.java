@@ -27,7 +27,8 @@ public class Mods {
                     .setAlias("sb")
                     .setDescription("Reorginizes the creative inventory with configurable groups and items.")
                     .setLinks(Map.of("github", "https://github.com/OroArmor/SlimeBlockInRedstoneTab",
-                            "curseforge", "https://www.curseforge.com/minecraft/mc-mods/slime-block-in-the-redstone-tab"))
+                            "curseforge", "https://www.curseforge.com/minecraft/mc-mods/slime-block-in-the-redstone-tab",
+                            "modrinth", "https://modrinth.com/mod/slimeblockintheredstonetab"))
                     .setExtendedDescription("The creative inventory is extremely cluttered and needs updating. This client-side mod allows you to move any item or tag to any tab, and creating new tabs. There are two config files that can be dynamically changed and updated with the /reload command in Minecraft. Check Github for a more in depth explaination of the config files.")
                     .build());
             MODS.add(new Mod.Builder().setName("Oro Config")
@@ -43,6 +44,15 @@ public class Mods {
                     .setDescription("Lightweight mod that expands hardcoded Minecraft items")
                     .setLinks(Map.of("github", "https://github.com/OroArmor/Multi-Item-Lib"))
                     .setExtendedDescription("A small library that easily allows for multiple types of items for Minecraft's more hardcoded items like elytra, fishing rods, bows, crossbows, and tridents.\nThis library will be depricated once Fabric API includes better versions of this library. This library does not encompass all uses cases for item, but it does with most of them to make the items work with the players.")
+                    .build());
+            MODS.add(new Mod.Builder().setName("Block Quantity Scanner")
+                    .setId("block-quantity-scanner")
+                    .setAlias("bqs")
+                    .setDescription("Count how many blocks are at each y level")
+                    .setLinks(Map.of("github", "https://github.com/OroArmor/BlockQuantityScanner",
+                            "modrinth", "https://modrinth.com/mod/block-quantity-scanner",
+                            "curseforge", "https://www.curseforge.com/minecraft/mc-mods/block-quantity-scanner"))
+                    .setExtendedDescription("Count how many blocks are at each y level\nContains two commands:\n`/scan_blocks <range> <block> [max-height]`\n`/scan_all_ores <range>`")
                     .build());
         }
     }
