@@ -1,6 +1,7 @@
 package com.oroarmor.discord_bot.mods;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Mod {
     private final String name;
@@ -84,5 +85,18 @@ public class Mod {
 
     public String getExtendedDescription() {
         return extendedDescription;
+    }
+
+    public String asJsonString() {
+        String json = "{";
+
+        json += "\"name\": \"" + name + "\",";
+        json += "\"id\": \"" + id + "\",";
+        json += "\"description\": \"" + description + "\",";
+        json += "\"extendedDescription\": \"" + extendedDescription + "\",";
+        json += "\"links\": {" + links.entrySet().stream().map(entry -> "\"" + entry.getKey() + "\":\"" +entry.getValue()+"\"").collect(Collectors.joining(","))+ "}";
+
+        json += "}";
+        return json;
     }
 }

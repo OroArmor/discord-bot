@@ -25,6 +25,7 @@ dependencies {
     compile('net.dv8tion:JDA:4.2.0_227') {
         exclude module: 'opus-java'
     }
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 

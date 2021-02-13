@@ -1,6 +1,8 @@
 package com.oroarmor.discord_bot;
 
 import com.oroarmor.discord_bot.commands.*;
+import com.oroarmor.discord_bot.mods.Mod;
+import com.oroarmor.discord_bot.mods.Mods;
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.api.JDA;
@@ -36,6 +38,7 @@ public class DiscordBot {
         CommandManager.addCommand(new EmbedCommand("bintray", "Links to OroArmor's bintray repository", Permissions.ANY, "Bintray", 0x079515, "OroArmor's Bintray page: https://bintray.com/oroarmor/oroarmor\nOroArmor's Bintray Repo: https://dl.bintray.com/oroarmor/oroarmor/"));
         CommandManager.addCommand(new EmbedCommand("architectury", "Links to Architectury", Permissions.ANY, "Architectury",0xc76003, "Architectury is required to run Netherite Plus. Download the fabric version: https://www.curseforge.com/minecraft/mc-mods/architectury-fabric or the forge version: https://www.curseforge.com/minecraft/mc-mods/architectury-forge."));
         CommandManager.addCommand(new IssueCommand());
+
         // optionally block until JDA is ready
         jda.awaitReady();
     }
