@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class ChangePrefixCommand extends Command {
     public ChangePrefixCommand() {
-        super("change-prefix", "Changes the command prefix (Only for moderators)", Permissions.MODERATOR);
+        super("change-prefix", "Changes the command prefix (Only for moderators).", Permissions.MODERATOR);
     }
 
     @Override

@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class IssueCommand extends Command {
     public IssueCommand() {
-        super("issue", "How to create an issue", Permissions.ANY);
+        super("issue", "How to create an issue.", Permissions.ANY);
     }
 
     @Override

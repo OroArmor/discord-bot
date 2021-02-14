@@ -20,6 +20,43 @@ public class Mod {
         this.extendedDescription = extendedDescription;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Map<String, String> getLinks() {
+        return links;
+    }
+
+    public String getExtendedDescription() {
+        return extendedDescription;
+    }
+
+    public String asJsonString() {
+        String json = "{";
+
+        json += "\"name\": \"" + name + "\",";
+        json += "\"id\": \"" + id + "\",";
+        json += "\"description\": \"" + description + "\",";
+        json += "\"extendedDescription\": \"" + extendedDescription + "\",";
+        json += "\"links\": {" + links.entrySet().stream().map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"").collect(Collectors.joining(",")) + "}";
+
+        json += "}";
+        return json;
+    }
+
     public static class Builder {
         private String name;
         private String id;
@@ -61,42 +98,5 @@ public class Mod {
         public Mod build() {
             return new Mod(name, id, alias, description, links, extendedDescription);
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Map<String, String> getLinks() {
-        return links;
-    }
-
-    public String getExtendedDescription() {
-        return extendedDescription;
-    }
-
-    public String asJsonString() {
-        String json = "{";
-
-        json += "\"name\": \"" + name + "\",";
-        json += "\"id\": \"" + id + "\",";
-        json += "\"description\": \"" + description + "\",";
-        json += "\"extendedDescription\": \"" + extendedDescription + "\",";
-        json += "\"links\": {" + links.entrySet().stream().map(entry -> "\"" + entry.getKey() + "\":\"" +entry.getValue()+"\"").collect(Collectors.joining(","))+ "}";
-
-        json += "}";
-        return json;
     }
 }
