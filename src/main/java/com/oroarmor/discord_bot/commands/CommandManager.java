@@ -17,6 +17,12 @@ public class CommandManager {
     public static void runCommand(Member member, MessageChannel channel, Message message) {
         if (message.getContentRaw().startsWith(PREFIX)) {
             List<String> tokens = Arrays.asList(message.getContentRaw().substring(1).split("\\s+"));
+            boolean delete = tokens.get(tokens.size() - 1).equals("-d");
+            if(delete) {
+                tokens = tokens.subList(0, tokens.size() - 1);
+                message.delete().queue();
+            }
+
             String commandName = tokens.get(0);
 
             Command command = null;
@@ -49,6 +55,8 @@ public class CommandManager {
     public static void addAlias(String alias, String command) {
         if (!COMMANDS.containsKey(command)) {
             throw new IllegalArgumentException("Command: " + command + " not found");
+        } else if(COMMANDS.containsKey(alias)) {
+            throw new IllegalArgumentException("Alias: " + alias +" is already a command");
         }
 
         ALIASES.put(alias, COMMANDS.get(command));

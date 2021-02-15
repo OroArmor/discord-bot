@@ -49,7 +49,7 @@ public class Mods {
                     Map<String, String> links = new HashMap<>();
                     jsonLinks.forEach(linkJson -> {
                         JsonObject linkObject = linkJson.getAsJsonObject();
-                        links.put(linkObject.get("name").getAsString(), linkObject.get("link").getAsString());
+                        links.put(linkObject.get("name").getAsString().toLowerCase(), linkObject.get("link").getAsString());
                     });
                     builder.setLinks(links);
 
