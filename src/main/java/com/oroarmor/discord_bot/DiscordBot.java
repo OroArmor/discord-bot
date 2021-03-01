@@ -55,6 +55,9 @@ public class DiscordBot {
 
     public static class EventListener extends ListenerAdapter {
         public void onMessageReceived(MessageReceivedEvent event) {
+            if(event.getMessage().getContentRaw().equals("o/") && event.getAuthor() != event.getJDA().getSelfUser()) {
+                event.getChannel().sendMessage("o/").queue();
+            }
             CommandManager.runCommand(event.getMember(), event.getChannel(), event.getMessage());
         }
 
