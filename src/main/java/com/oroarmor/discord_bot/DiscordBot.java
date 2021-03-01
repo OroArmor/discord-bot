@@ -48,7 +48,7 @@ public class DiscordBot {
         CommandManager.addAlias("fapi", "fabric-api");
         CommandManager.addCommand(new AliasesCommand());
         CommandManager.addAlias("alias", "aliases");
-
+        CommandManager.addCommand(new FaqCommand());
         // optionally block until JDA is ready
         jda.awaitReady();
     }
