@@ -49,6 +49,7 @@ public class DiscordBot {
         CommandManager.addCommand(new AliasesCommand());
         CommandManager.addAlias("alias", "aliases");
         CommandManager.addCommand(new FaqCommand());
+        CommandManager.addCommand(new RefreshModsCommand());
         // optionally block until JDA is ready
         jda.awaitReady();
     }
