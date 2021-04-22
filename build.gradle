@@ -22,13 +22,17 @@ task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
 dependencies {
-    compile('net.dv8tion:JDA:4.2.0_227') {
+    implementation('net.dv8tion:JDA:4.2.1_260') {
         exclude module: 'opus-java'
     }
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.10.1')
 }
 
 
 repositories {
-    jcenter()
     mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
