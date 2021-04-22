@@ -8,6 +8,7 @@ plugins {
     id 'java'
     id "application"
     id 'idea'
+    id 'org.cadixdev.licenser' version '0.5.0'
 }
 
 run {
