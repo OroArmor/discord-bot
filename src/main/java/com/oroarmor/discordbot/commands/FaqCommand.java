@@ -1,8 +1,7 @@
-package com.oroarmor.discord_bot.commands;
+package com.oroarmor.discordbot.commands;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;

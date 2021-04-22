@@ -1,4 +1,4 @@
-package com.oroarmor.discord_bot.commands;
+package com.oroarmor.discordbot.commands;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;

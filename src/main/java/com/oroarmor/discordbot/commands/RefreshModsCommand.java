@@ -1,9 +1,9 @@
-package com.oroarmor.discord_bot.commands;
+package com.oroarmor.discordbot.commands;
 
 import java.util.List;
 
-import com.oroarmor.discord_bot.mods.Mod;
-import com.oroarmor.discord_bot.mods.Mods;
+import com.oroarmor.discordbot.mods.Mod;
+import com.oroarmor.discordbot.mods.Mods;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 

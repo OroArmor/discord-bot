@@ -1,4 +1,4 @@
-package com.oroarmor.discord_bot.mods;
+package com.oroarmor.discordbot.mods;
 
 import java.util.Map;
 import java.util.stream.Collectors;

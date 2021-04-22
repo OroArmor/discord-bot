@@ -1,4 +1,4 @@
-package com.oroarmor.discord_bot.mods;
+package com.oroarmor.discordbot.mods;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.oroarmor.discord_bot.util.MessageEmbedBuilder;
+import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class Mods {

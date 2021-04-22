@@ -1,4 +1,4 @@
-package com.oroarmor.discord_bot.util;
+package com.oroarmor.discordbot.util;
 
 import java.time.OffsetDateTime;
 import java.util.List;

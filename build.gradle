@@ -11,11 +11,11 @@ plugins {
 }
 
 run {
-    main = "com.oroarmor.discord_bot.DiscordBot"
+    main = "com.oroarmor.discordbot.DiscordBot"
 }
 
 startScripts {
-    mainClassName("com.oroarmor.discord_bot.DiscordBot")
+    mainClassName("com.oroarmor.discordbot.DiscordBot")
 }
 
 task stage(dependsOn: ['build', 'clean'])
