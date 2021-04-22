@@ -1,1 +1,1 @@
-worker: ./gradlew run -Dorg.gradle.jvmargs=-Xmx500m
+worker: java -jar ./build/libs/oroarmor-discord-bot-all.jar
