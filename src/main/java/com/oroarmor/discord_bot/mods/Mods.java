@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.oroarmor.discord_bot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
@@ -27,17 +26,19 @@ public class Mods {
                 InputStream stream = new URL("https://oroarmor.com/api/mods.json").openStream();
                 String str = new String(stream.readAllBytes());
 
-                JsonElement element = JsonParser.parseString(str);
-                JsonArray modArray = element.getAsJsonObject().get("mods").getAsJsonArray();
+                ObjectMapper mapper = new ObjectMapper();
+
+
+                JsonNode element = mapper.readTree(str);
+                ArrayNode modArray = (ArrayNode) element.findValue("mods");
 
                 modArray.forEach(jsonMod -> {
-                    JsonObject modObject = jsonMod.getAsJsonObject();
-                    Mod.Builder builder = new Mod.Builder().setName(modObject.get("name").getAsString())
-                            .setId(modObject.get("id").getAsString())
-                            .setDescription(modObject.get("description").getAsString())
-                            .setExtendedDescription(modObject.get("extendedDescription").getAsString());
+                    Mod.Builder builder = new Mod.Builder().setName(jsonMod.get("name").asText())
+                            .setId(jsonMod.get("id").asText())
+                            .setDescription(jsonMod.get("description").asText())
+                            .setExtendedDescription(jsonMod.get("extendedDescription").asText());
 
-                    String id = modObject.get("id").getAsString();
+                    String id = jsonMod.get("id").asText();
                     String[] idTokens = id.contains("_") ? id.split("_") : id.split("-");
                     StringBuilder alias = new StringBuilder();
                     for (String token : idTokens) {
@@ -45,12 +46,9 @@ public class Mods {
                     }
                     builder.setAlias(alias.toString());
 
-                    JsonArray jsonLinks = modObject.get("links").getAsJsonArray();
+                    ArrayNode jsonLinks = (ArrayNode) jsonMod.get("links");
                     Map<String, String> links = new HashMap<>();
-                    jsonLinks.forEach(linkJson -> {
-                        JsonObject linkObject = linkJson.getAsJsonObject();
-                        links.put(linkObject.get("name").getAsString().toLowerCase(), linkObject.get("link").getAsString());
-                    });
+                    jsonLinks.forEach(linkJson -> links.put(linkJson.get("name").asText().toLowerCase(), linkJson.get("link").asText()));
                     builder.setLinks(links);
 
                     MODS.add(builder.build());

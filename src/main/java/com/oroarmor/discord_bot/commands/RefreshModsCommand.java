@@ -7,8 +7,6 @@ import com.oroarmor.discord_bot.mods.Mods;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-import static com.oroarmor.discord_bot.mods.Mods.getModEmbed;
-
 public class RefreshModsCommand extends Command{
     public RefreshModsCommand() {
         super("refresh-mods", "Refreshes the mod list", Permissions.MODERATOR);
