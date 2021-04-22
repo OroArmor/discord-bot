@@ -1,1 +1,1 @@
-worker: ./gradlew run
+worker: ./gradlew run org.gradle.jvmargs=-Xmx500m
