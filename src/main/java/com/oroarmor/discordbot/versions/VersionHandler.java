@@ -39,6 +39,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
+import org.jetbrains.annotations.NotNull;
 
 public class VersionHandler {
     private final List<VersionChecker> checkers;
@@ -84,11 +85,15 @@ public class VersionHandler {
             try {
                 InputStream stream = checkURL.openStream();
                 String str = new String(stream.readAllBytes());
-                ObjectMapper mapper = new ObjectMapper();
+                ObjectMapper mapper = getMapper();
                 JsonNode element = mapper.readTree(str);
 
                 Set<String> newVersions = this.getVersions(element);
                 newVersions.removeAll(versions);
+
+                if (!newVersions.isEmpty()) {
+                    System.out.println("Updates for " + getName() + " " + newVersions);
+                }
 
                 if (!newVersions.isEmpty() && !versions.isEmpty()) {
                     versions.addAll(newVersions);
@@ -102,7 +107,16 @@ public class VersionHandler {
             return Set.of();
         }
 
-        protected abstract Set<String> decorate(Set<String> versions);
+        @NotNull
+        protected ObjectMapper getMapper() {
+            return new ObjectMapper();
+        }
+
+        protected abstract String getName();
+
+        protected Set<String> decorate(Set<String> versions) {
+            return versions.stream().map(version -> "New " + getName() + " version: " + version).collect(Collectors.toSet());
+        }
 
         protected abstract Set<String> getVersions(JsonNode element);
     }
@@ -116,14 +130,14 @@ public class VersionHandler {
         }
 
         @Override
-        protected Set<String> decorate(Set<String> versions) {
-            return versions.stream().map(version -> "New " + repository + " version: " + version).collect(Collectors.toSet());
-        }
-
-        @Override
         protected Set<String> getVersions(JsonNode node) {
             ArrayNode versions = (ArrayNode) node;
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("name").asText().isEmpty() ? _node.get("tag_name").asText() : _node.get("name").asText()).collect(Collectors.toSet());
+        }
+
+        @Override
+        protected String getName() {
+            return repository;
         }
     }
 
@@ -136,37 +150,20 @@ public class VersionHandler {
         }
 
         @Override
-        public Set<String> update() {
-            try {
-                InputStream stream = checkURL.openStream();
-                String str = new String(stream.readAllBytes());
-                ObjectMapper mapper = new XmlMapper();
-                JsonNode element = mapper.readTree(str);
-
-                Set<String> newVersions = this.getVersions(element);
-                newVersions.removeAll(versions);
-
-                if (!newVersions.isEmpty() && !versions.isEmpty()) {
-                    versions.addAll(newVersions);
-                    return decorate(newVersions);
-                }
-                versions.addAll(newVersions);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return Set.of();
-        }
-
-        @Override
-        protected Set<String> decorate(Set<String> versions) {
-            return versions.stream().map(version -> "New " + name + " version: " + version).collect(Collectors.toSet());
-        }
-
-        @Override
         protected Set<String> getVersions(JsonNode node) {
             ArrayNode versions = (ArrayNode) node.get("versioning").get("versions").get("version");
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(JsonNode::asText).collect(Collectors.toSet());
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        @NotNull
+        protected ObjectMapper getMapper() {
+            return new XmlMapper();
         }
     }
 
@@ -179,14 +176,14 @@ public class VersionHandler {
         }
 
         @Override
-        protected Set<String> decorate(Set<String> versions) {
-            return versions.stream().map(version -> "New " + name + " version: " + version).collect(Collectors.toSet());
-        }
-
-        @Override
         protected Set<String> getVersions(JsonNode node) {
             ArrayNode versions = (ArrayNode) node;
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("version").asText()).collect(Collectors.toSet());
+        }
+
+        @Override
+        public String getName() {
+            return name;
         }
     }
 
@@ -196,14 +193,14 @@ public class VersionHandler {
         }
 
         @Override
-        protected Set<String> decorate(Set<String> versions) {
-            return versions.stream().map(version -> "New Minecraft version: " + version).collect(Collectors.toSet());
-        }
-
-        @Override
         protected Set<String> getVersions(JsonNode node) {
             ArrayNode versions = (ArrayNode) node.get("game");
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("version").asText()).collect(Collectors.toSet());
+        }
+
+        @Override
+        protected String getName() {
+            return "Minecraft";
         }
     }
 }
