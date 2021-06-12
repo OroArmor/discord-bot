@@ -29,7 +29,8 @@ dependencies {
     shadow(implementation('net.dv8tion:JDA:4.2.1_260') {
         exclude module: 'opus-java'
     })
-    shadow(implementation('com.fasterxml.jackson.core:jackson-databind:2.10.1'))
+    shadow(implementation('com.fasterxml.jackson.core:jackson-databind:2.12.3'))
+    shadow(implementation('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.3'))
 }
 
 
