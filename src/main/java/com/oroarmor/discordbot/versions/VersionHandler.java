@@ -122,9 +122,8 @@ public class VersionHandler {
 
         @Override
         protected Set<String> getVersions(JsonNode node) {
-            System.out.println(repository);
             ArrayNode versions = (ArrayNode) node;
-            return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("name").asText().isEmpty() ? _node.get("version").asText() : _node.get("tag_name").asText()).collect(Collectors.toSet());
+            return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("name").asText().isEmpty() ? _node.get("tag_name").asText() : _node.get("name").asText()).collect(Collectors.toSet());
         }
     }
 
