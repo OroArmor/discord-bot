@@ -139,7 +139,9 @@ public class DiscordBot {
 
         handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.architectury.dev/me/shedaniel/architectury/maven-metadata.xml", "Architectury"));
 
-        new Thread(() -> {
+        handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.minecraftforge.net/net/minecraftforge/forge/maven-metadata.xml", "Forge"));
+        
+	new Thread(() -> {
             while (true) {
                 handler.update();
                 try {
