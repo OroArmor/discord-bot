@@ -12,6 +12,10 @@ run {
     mainClass.set(mainClassName)
 }
 
+shadowJar {
+    setMainClassName(mainClassName)
+}
+
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
