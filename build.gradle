@@ -12,10 +12,6 @@ run {
     mainClass.set(mainClassName)
 }
 
-startScripts {
-    mainClassName(mainClassName)
-}
-
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
