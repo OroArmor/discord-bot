@@ -41,13 +41,13 @@ public class ModsCommand extends Command {
     @Override
     public void run(Member member, MessageChannel channel, List<String> tokens) {
         if (tokens.size() == 1) {
-            channel.sendMessage(new MessageEmbedBuilder().setTitle("My Mods").setDescription("My mods are: \n" + Mods.getMods().stream().map(mod -> "**" + mod.getName() + " (" + mod.getAlias() + ")**: " + mod.getDescription()).collect(Collectors.joining("\n"))).build()).queue();
+            channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle("My Mods").setDescription("My mods are: \n" + Mods.getMods().stream().map(mod -> "**" + mod.getName() + " (" + mod.getAlias() + ")**: " + mod.getDescription()).collect(Collectors.joining("\n"))).build()).queue();
         } else {
             Mod mod = Mods.getMod(tokens.get(1));
             if (mod == null) {
                 channel.sendMessage("Mod: `" + tokens.get(1) + "`, is not a valid mod.").queue();
             } else {
-                channel.sendMessage(Mods.getModEmbed(mod)).queue();
+                channel.sendMessageEmbeds(Mods.getModEmbed(mod)).queue();
             }
         }
     }

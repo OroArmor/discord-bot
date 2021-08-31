@@ -58,7 +58,7 @@ public class FaqCommand extends Command{
             List<Message> messages = ((MessageChannel) Objects.requireNonNull(member.getGuild().getGuildChannelById(channelID))).getHistoryFromBeginning(100).submit().get().getRetrievedHistory();
             for(Message message : messages) {
                 if(message.getContentStripped().startsWith(tokens.get(1))) {
-                    channel.sendMessage(new EmbedBuilder().setTitle(String.format("FAQ %s", tokens.get(1))).setDescription(message.getContentRaw()).build()).queue();
+                    channel.sendMessageEmbeds(new EmbedBuilder().setTitle(String.format("FAQ %s", tokens.get(1))).setDescription(message.getContentRaw()).build()).queue();
                     return;
                 }
             }

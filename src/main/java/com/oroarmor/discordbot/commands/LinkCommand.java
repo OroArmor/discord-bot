@@ -42,7 +42,7 @@ public class LinkCommand extends Command {
 
     @Override
     public void run(Member member, MessageChannel channel, List<String> tokens) {
-        channel.sendMessage(new MessageEmbedBuilder().setTitle(name).setDescription("OroArmor's " + name + " page: " + url).setColor(color).build()).queue();
+        channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle(name).setDescription("OroArmor's " + name + " page: " + url).setColor(color).build()).queue();
     }
 
     @Override

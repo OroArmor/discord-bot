@@ -55,9 +55,9 @@ public class VersionHandler {
     }
 
     public void update() {
-        checkers.stream().map(VersionChecker::update).filter(versions -> !versions.isEmpty()).map(versions -> String.join("\n", versions)).forEach(update -> {
+        checkers.stream().map(VersionChecker::update).filter(versions -> !versions.isEmpty()).map(TreeSet::new).map(versions -> String.join("\n", versions)).forEach(update -> {
             MessageEmbed embed = new MessageEmbedBuilder().setTitle("New updates").setDescription(update).setColor(0xFF0000).build();
-            channel.sendMessage(embed).queue();
+            channel.sendMessageEmbeds(embed).queue();
         });
     }
 

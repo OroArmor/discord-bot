@@ -47,7 +47,7 @@ public class ModCommand extends Command {
             if (mod == null) {
                 channel.sendMessage("Mod: `" + tokens.get(1) + "`, is not a valid mod.").queue();
             } else {
-                channel.sendMessage(getModEmbed(mod)).queue();
+                channel.sendMessageEmbeds(getModEmbed(mod)).queue();
             }
         }
     }

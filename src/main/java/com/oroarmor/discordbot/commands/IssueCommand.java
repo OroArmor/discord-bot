@@ -40,13 +40,13 @@ public class IssueCommand extends Command {
     @Override
     public void run(Member member, MessageChannel channel, List<String> tokens) {
         if (tokens.size() == 1) {
-            channel.sendMessage(new MessageEmbedBuilder().setTitle("Create an Issue").setColor(0xff5500).setDescription("I won't support issues in here, so go to github, https://github.com/OroArmor/Netherite-Plus-Mod/issues, and place an issue. As well, if you dont provide a log or screenshots, I will not help you.").build()).queue();
+            channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle("Create an Issue").setColor(0xff5500).setDescription("I won't support issues in here, so go to github, https://github.com/OroArmor/Netherite-Plus-Mod/issues, and place an issue. As well, if you dont provide a log or screenshots, I will not help you.").build()).queue();
         } else {
             Mod mod = Mods.getMod(tokens.get(1));
             if (mod == null) {
                 channel.sendMessage("Mod: " + tokens.get(1) + ", is not a valid mod.").queue();
             } else {
-                channel.sendMessage(new MessageEmbedBuilder().setTitle("Create an Issue").setColor(0xff5500).setDescription("I won't support issues in here, so go to github, " + mod.getLinks().get("github") + "/issues, and place an issue. As well, if you dont provide a log or screenshots, I will not help you.").build()).queue();
+                channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle("Create an Issue").setColor(0xff5500).setDescription("I won't support issues in here, so go to github, " + mod.getLinks().get("github") + "/issues, and place an issue. As well, if you dont provide a log or screenshots, I will not help you.").build()).queue();
             }
         }
     }

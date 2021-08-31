@@ -44,6 +44,6 @@ public class EmbedCommand extends Command {
 
     @Override
     public void run(Member member, MessageChannel channel, List<String> tokens) {
-        channel.sendMessage(new MessageEmbedBuilder().setTitle(this.title).setColor(color).setDescription(embedDescription).build()).queue();
+        channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle(this.title).setColor(color).setDescription(embedDescription).build()).queue();
     }
 }
