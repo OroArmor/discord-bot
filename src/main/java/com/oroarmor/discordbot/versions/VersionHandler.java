@@ -167,10 +167,10 @@ public class VersionHandler {
         }
     }
 
-    public static class FabricMetaChecker extends VersionChecker {
+    public static class MetaChecker extends VersionChecker {
         private final String name;
 
-        public FabricMetaChecker(String url, String name) {
+        public MetaChecker(String url, String name) {
             super(url);
             this.name = name;
         }
