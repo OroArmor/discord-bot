@@ -164,12 +164,6 @@ public class DiscordBot {
         handler.addChecker(new VersionHandler.MetaChecker("https://meta.quiltmc.org/v3/versions/hashed", "Hashed Mojmap"));
         handler.addChecker(new VersionHandler.MetaChecker("https://meta.quiltmc.org/v3/versions/quilt-mappings", "Quilt Mappings"));
 
-        List<String> repositories = List.of("FabricMC/fabric", "terraformersmc/modmenu");
-
-        for (String repository : repositories) {
-            handler.addChecker(new VersionHandler.GithubReleasesChecker(repository));
-        }
-
         handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.architectury.dev/me/shedaniel/architectury/maven-metadata.xml", "Architectury"));
         handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.minecraftforge.net/net/minecraftforge/forge/maven-metadata.xml", "Forge"));
 
