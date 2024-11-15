@@ -65,6 +65,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class DiscordBot {
     public static boolean locked;
     public static MessageChannel logChannel;
+    public static String ip = "";
 
     public static void main(String[] args)
             throws LoginException, InterruptedException {
@@ -147,7 +148,23 @@ public class DiscordBot {
 
             logChannel = (MessageChannel) event.getJDA().getGuilds().get(0).getChannels().stream().filter(channel -> channel.getName().equals("bot-logs")).findFirst().get();
             logChannel.sendMessage("Started.").queue();
-        }
+        
+	    new Thread(() -> {
+		while (true) {
+		    try {
+		        String ip = new String(new ProcessBuilder("dig", "+short", "myip.opendns.com", "@resolver1.opendns.com").start().getInputStream().readAllBytes()).trim();
+		        if (!DiscordBot.ip.equals(ip)) {
+			    DiscordBot.ip = ip;
+			    logChannel.sendMessage("New ip: `" + ip + "`!").queue();
+		        }
+		
+			TimeUnit.MINUTES.sleep(10);
+		    } catch (Exception e) {
+			    e.printStackTrace();
+		    }
+		}
+	    }).start();
+	}
     }
 
     public static void addVersionUpdatesToChannel(TextChannel channel) {
