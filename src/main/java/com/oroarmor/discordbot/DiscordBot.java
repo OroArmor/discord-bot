@@ -80,8 +80,6 @@ public class DiscordBot {
         CommandManager.addCommand(new AliasesCommand());
         CommandManager.addCommand(new ChangePrefixCommand());
         CommandManager.addCommand(new CommandsCommand());
-        CommandManager.addCommand(new EmbedCommand("architectury", "Links to Architectury.", Permissions.ANY, "Architectury", 0xc76003, "Architectury is required to run Netherite Plus. Download the fabric version: https://www.curseforge.com/minecraft/mc-mods/architectury-fabric or the forge version: https://www.curseforge.com/minecraft/mc-mods/architectury-forge."));
-        CommandManager.addCommand(new EmbedCommand("bintray", "Links to OroArmor's bintray repository.", Permissions.ANY, "Bintray", 0x079515, "OroArmor's Bintray page: https://bintray.com/oroarmor/oroarmor\nOroArmor's Bintray Repo: https://dl.bintray.com/oroarmor/oroarmor/"));
         CommandManager.addCommand(new EmbedCommand("fabric-api", "Info about the fabric api.", Permissions.ANY, "Fabric API", 0xfcd98d, "Netherite Plus Fabric requires the fabric api to run. Download it from: https://www.curseforge.com/minecraft/mc-mods/fabric-api."));
         CommandManager.addCommand(new FaqCommand());
         CommandManager.addCommand(new IssueCommand());
@@ -98,7 +96,6 @@ public class DiscordBot {
 
 
         CommandManager.addAlias("alias", "aliases");
-        CommandManager.addAlias("arch", "architectury");
         CommandManager.addAlias("cf", "curseforge");
         CommandManager.addAlias("command", "commands");
         CommandManager.addAlias("fapi", "fabric-api");
@@ -163,11 +160,6 @@ public class DiscordBot {
 
         handler.addChecker(new VersionHandler.MetaChecker("https://meta.quiltmc.org/v3/versions/hashed", "Hashed Mojmap"));
         handler.addChecker(new VersionHandler.MetaChecker("https://meta.quiltmc.org/v3/versions/quilt-mappings", "Quilt Mappings"));
-
-        handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.architectury.dev/me/shedaniel/architectury/maven-metadata.xml", "Architectury"));
-        handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.minecraftforge.net/net/minecraftforge/forge/maven-metadata.xml", "Forge"));
-
-        handler.addChecker(new VersionHandler.MavenMetadataChecker("https://maven.quiltmc.org/repository/release/org/quiltmc/quiltflower/maven-metadata.xml", "QuiltFlower"));
 
         new Thread(() -> {
             while (true) {
