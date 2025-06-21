@@ -38,6 +38,11 @@ public enum Permissions {
         public boolean validUser(Member member, MessageChannel channel) {
             return member.getRoles().stream().anyMatch(role -> role.getName().equals("Mod Gang"));
         }
+    }, OROARMOR {
+        @Override
+        public boolean validUser(Member member, MessageChannel channel) {
+            return member.getUser().getId().equals("365708770262777856");
+        }
     };
 
     public abstract boolean validUser(Member member, MessageChannel channel);

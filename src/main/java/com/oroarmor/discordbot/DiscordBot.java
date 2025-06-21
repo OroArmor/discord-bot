@@ -29,21 +29,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import com.oroarmor.discordbot.commands.AliasesCommand;
-import com.oroarmor.discordbot.commands.ChangePrefixCommand;
-import com.oroarmor.discordbot.commands.CommandManager;
-import com.oroarmor.discordbot.commands.CommandsCommand;
-import com.oroarmor.discordbot.commands.EmbedCommand;
-import com.oroarmor.discordbot.commands.FaqCommand;
-import com.oroarmor.discordbot.commands.IssueCommand;
-import com.oroarmor.discordbot.commands.LinkCommand;
-import com.oroarmor.discordbot.commands.LockServerCommand;
-import com.oroarmor.discordbot.commands.ModCommand;
-import com.oroarmor.discordbot.commands.ModsCommand;
-import com.oroarmor.discordbot.commands.Permissions;
-import com.oroarmor.discordbot.commands.PingCommand;
-import com.oroarmor.discordbot.commands.RefreshModsCommand;
-import com.oroarmor.discordbot.commands.StringCommand;
+import com.oroarmor.discordbot.commands.*;
 import com.oroarmor.discordbot.versions.VersionHandler;
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
@@ -94,6 +80,10 @@ public class DiscordBot {
         CommandManager.addCommand(new RefreshModsCommand());
         CommandManager.addCommand(new StringCommand("apply-for-mod", "Provides the link to the moderator application page.", Permissions.ANY, "Apply for moderator at: https://forms.gle/F4LPDH7xD96VknY39"));
         CommandManager.addCommand(new LockServerCommand());
+        if (System.getenv("WOL_MAC") != null) {
+            CommandManager.addCommand(new ShellCommand("wol", "Wake up OroArmor's Computer", new String[]{"wakeonlan", System.getenv("WOL_MAC")}));
+        }
+
 
 
         CommandManager.addAlias("alias", "aliases");
