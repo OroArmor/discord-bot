@@ -31,8 +31,10 @@ import java.util.stream.Collectors;
 
 import com.oroarmor.discordbot.commands.*;
 import com.oroarmor.discordbot.versions.VersionHandler;
+
 import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -83,7 +85,6 @@ public class DiscordBot {
         if (System.getenv("WOL_MAC") != null) {
             CommandManager.addCommand(new ShellCommand("wol", "Wake up OroArmor's Computer", new String[]{"wakeonlan", System.getenv("WOL_MAC")}));
         }
-
 
 
         CommandManager.addAlias("alias", "aliases");
@@ -138,23 +139,7 @@ public class DiscordBot {
 
             logChannel = (MessageChannel) event.getJDA().getGuilds().get(0).getChannels().stream().filter(channel -> channel.getName().equals("bot-logs")).findFirst().get();
             logChannel.sendMessage("Started.").queue();
-        
-	    new Thread(() -> {
-		while (true) {
-		    try {
-		        String ip = new String(new ProcessBuilder("dig", "+short", "myip.opendns.com", "@resolver1.opendns.com").start().getInputStream().readAllBytes()).trim();
-		        if (!DiscordBot.ip.equals(ip)) {
-			    DiscordBot.ip = ip;
-			    logChannel.sendMessage("New ip: `" + ip + "`!").queue();
-		        }
-		
-			TimeUnit.MINUTES.sleep(10);
-		    } catch (Exception e) {
-			    e.printStackTrace();
-		    }
-		}
-	    }).start();
-	}
+        }
     }
 
     public static void addVersionUpdatesToChannel(TextChannel channel) {
