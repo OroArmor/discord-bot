@@ -1,0 +1,6 @@
+services:
+  discord:
+    image: ghcr.io/oroarmor/discord-bot:latest
+    restart: unless-stopped
+    env_file:
+      - .env
