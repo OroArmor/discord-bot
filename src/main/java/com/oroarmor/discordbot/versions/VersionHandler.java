@@ -24,54 +24,137 @@
 
 package com.oroarmor.discordbot.versions;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.oroarmor.discordbot.DiscordBot;
 import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
 public class VersionHandler {
     private final List<VersionChecker> checkers;
-    private final TextChannel channel;
+    private final List<TextChannel> channels;
 
-    public VersionHandler(TextChannel channel) {
-        this.channel = channel;
-        checkers = new ArrayList<>();
-    }
-
-    public void addChecker(VersionChecker checker) {
-        checkers.add(checker);
+    public VersionHandler(List<TextChannel> channels, List<VersionChecker> checkers) {
+        this.channels = channels;
+        this.checkers = checkers;
     }
 
     public void update() {
-        checkers.stream().map(VersionChecker::update).filter(versions -> !versions.isEmpty()).map(TreeSet::new).map(versions -> String.join("\n", versions)).forEach(update -> {
-            MessageEmbed embed = new MessageEmbedBuilder().setTitle("New updates").setDescription(update).setColor(0xFF0000).build();
-            channel.sendMessageEmbeds(embed).queue();
-        });
+        checkers.stream()
+                .map(VersionChecker::update)
+                .filter(versions -> !versions.isEmpty())
+                .map(TreeSet::new)
+                .map(versions -> String.join("\n", versions))
+                .forEach(update -> {
+                    MessageEmbed embed = new MessageEmbedBuilder()
+                            .setTitle("New updates")
+                            .setDescription(update)
+                            .setColor(0xFF0000)
+                            .build();
+
+                    channels.forEach(channel -> channel.sendMessageEmbeds(embed).queue());
+                });
+    }
+
+    public static List<VersionChecker> loadFromJson(ArrayNode checkers) {
+        List<VersionChecker> checkerList = new ArrayList<>();
+        for (JsonNode checker : checkers) {
+            String type = checker.get("type").asText();
+            VersionChecker versionChecker = switch (type) {
+                case "meta" -> new MetaChecker(
+                        checker.get("name").asText(),
+                        checker.get("id").asText(),
+                        checker.get("url").asText()
+                    );
+                case "maven" -> new MavenMetadataChecker(
+                        checker.get("name").asText(),
+                        checker.get("id").asText(),
+                        checker.get("url").asText()
+                    );
+                case "github" -> new GithubReleasesChecker(
+                        checker.get("repository").asText()
+                    );
+                default -> throw new IllegalArgumentException("Unknown checker type: " + type);
+            };
+            checkerList.add(versionChecker);
+        }
+
+        return checkerList;
     }
 
     public static abstract class VersionChecker {
         protected final Set<String> versions;
-        protected final URL checkURL;
 
-        public VersionChecker(URL checkURL) {
-            this.versions = new HashSet<>();
+        protected final URL checkURL;
+        private final String name;
+        private final String id;
+
+        public VersionChecker(String name, String id, URL checkURL) {
+            this.name = name;
+            this.id = id;
+            this.versions = loadVersions();
             this.checkURL = checkURL;
         }
 
-        public VersionChecker(String checkURL) {
-            this(((Supplier<URL>) () -> {
+        private Set<String> loadVersions() {
+            Path cache = DiscordBot.CACHE_DIRECTORY.resolve(this.id + ".json");
+            try {
+                ArrayNode node = ((ArrayNode) new JsonMapper().readTree(Files.newBufferedReader(cache)));
+
+                Set<String> versions = new HashSet<>();
+
+                for (JsonNode version : node) {
+                    versions.add(version.asText());
+                }
+
+                return versions;
+            } catch (NoSuchFileException e) {
+                return new HashSet<>();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private void saveVersions(Set<String> versions) {
+            Path cache = DiscordBot.CACHE_DIRECTORY.resolve(this.id + ".json");
+            try {
+                Files.createDirectories(cache.getParent());
+                if (!Files.exists(cache)) {
+                    Files.createFile(cache);
+                }
+
+                JsonGenerator generator = new JsonMapper().createGenerator(Files.newBufferedWriter(cache));
+                generator.writeArray(
+                        versions.toArray(String[]::new),
+                        0,
+                        versions.size()
+                );
+                generator.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public VersionChecker(String name, String id, String checkURL) {
+            this(name, id, ((Supplier<URL>) () -> {
                 try {
                     return new URL(checkURL);
                 } catch (MalformedURLException e) {
@@ -100,6 +183,7 @@ public class VersionHandler {
                     return decorate(newVersions);
                 }
                 versions.addAll(newVersions);
+                saveVersions(versions);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -112,7 +196,13 @@ public class VersionHandler {
             return new ObjectMapper();
         }
 
-        protected abstract String getName();
+        protected String getName() {
+            return this.name;
+        }
+
+        public String getId() {
+            return id;
+        }
 
         protected Set<String> decorate(Set<String> versions) {
             return versions.stream().map(version -> "New " + getName() + " version: " + version).collect(Collectors.toSet());
@@ -122,11 +212,8 @@ public class VersionHandler {
     }
 
     public static class GithubReleasesChecker extends VersionChecker {
-        private final String repository;
-
         public GithubReleasesChecker(String repository) {
-            super("https://api.github.com/repos/" + repository + "/releases");
-            this.repository = repository;
+            super(repository, repository, "https://api.github.com/repos/" + repository + "/releases");
         }
 
         @Override
@@ -134,30 +221,17 @@ public class VersionHandler {
             ArrayNode versions = (ArrayNode) node;
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("name").asText().isEmpty() ? _node.get("tag_name").asText() : _node.get("name").asText()).collect(Collectors.toSet());
         }
-
-        @Override
-        protected String getName() {
-            return repository;
-        }
     }
 
     public static class MavenMetadataChecker extends VersionChecker {
-        private final String name;
-
-        public MavenMetadataChecker(String checkURL, String name) {
-            super(checkURL);
-            this.name = name;
+        public MavenMetadataChecker(String name, String id, String url) {
+            super(name, id, url);
         }
 
         @Override
         protected Set<String> getVersions(JsonNode node) {
             ArrayNode versions = (ArrayNode) node.get("versioning").get("versions").get("version");
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(JsonNode::asText).collect(Collectors.toSet());
-        }
-
-        @Override
-        public String getName() {
-            return name;
         }
 
         @Override
@@ -168,39 +242,15 @@ public class VersionHandler {
     }
 
     public static class MetaChecker extends VersionChecker {
-        private final String name;
 
-        public MetaChecker(String url, String name) {
-            super(url);
-            this.name = name;
+        public MetaChecker(String name, String id, String url) {
+            super(name, id, url);
         }
 
         @Override
         protected Set<String> getVersions(JsonNode node) {
             ArrayNode versions = (ArrayNode) node;
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("version").asText()).collect(Collectors.toSet());
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-    }
-
-    public static class QuiltMinecraftMetaChecker extends VersionChecker {
-        public QuiltMinecraftMetaChecker() {
-            super("https://meta.quiltmc.org/v3/versions");
-        }
-
-        @Override
-        protected Set<String> getVersions(JsonNode node) {
-            ArrayNode versions = (ArrayNode) node.get("game");
-            return StreamSupport.stream(Spliterators.spliteratorUnknownSize(versions.elements(), Spliterator.IMMUTABLE), true).map(_node -> _node.get("version").asText()).collect(Collectors.toSet());
-        }
-
-        @Override
-        protected String getName() {
-            return "Minecraft";
         }
     }
 }

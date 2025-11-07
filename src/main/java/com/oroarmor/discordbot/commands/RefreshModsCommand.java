@@ -29,7 +29,7 @@ import java.util.List;
 import com.oroarmor.discordbot.mods.Mod;
 import com.oroarmor.discordbot.mods.Mods;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class RefreshModsCommand extends Command{
     public RefreshModsCommand() {
@@ -37,7 +37,7 @@ public class RefreshModsCommand extends Command{
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         List<Mod> mods = Mods.getMods();
         mods.clear();
         Mods.getMods();

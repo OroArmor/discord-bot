@@ -27,7 +27,7 @@ package com.oroarmor.discordbot.commands;
 import java.util.List;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class PingCommand extends Command {
     public PingCommand() {
@@ -35,7 +35,7 @@ public class PingCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         long time = System.currentTimeMillis();
         channel.sendMessage("Pong").queue(response -> response.editMessageFormat("Pong %d ms", System.currentTimeMillis() - time).queue());
     }

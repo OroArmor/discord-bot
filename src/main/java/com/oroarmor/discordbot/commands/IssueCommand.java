@@ -30,7 +30,7 @@ import com.oroarmor.discordbot.mods.Mod;
 import com.oroarmor.discordbot.mods.Mods;
 import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class IssueCommand extends Command {
     public IssueCommand() {
@@ -38,7 +38,7 @@ public class IssueCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         if (tokens.size() == 1) {
             channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle("Create an Issue").setColor(0xff5500).setDescription("I won't support issues in here, so go to github, https://github.com/OroArmor/Netherite-Plus-Mod/issues, and place an issue. As well, if you dont provide a log or screenshots, I will not help you.").build()).queue();
         } else {

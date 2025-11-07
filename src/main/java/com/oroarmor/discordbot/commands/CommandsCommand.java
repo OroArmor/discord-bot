@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class CommandsCommand extends Command {
     public CommandsCommand() {
@@ -36,7 +36,7 @@ public class CommandsCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         channel.sendMessage("Available commands are: ```" + CommandManager.getCommands().values().stream().filter(command -> command.getPermissions().validUser(member, channel)).map(command -> CommandManager.PREFIX + command.getName() + ": " + command.getDescription()).collect(Collectors.joining("\n")) + "```").queue();
     }
 }

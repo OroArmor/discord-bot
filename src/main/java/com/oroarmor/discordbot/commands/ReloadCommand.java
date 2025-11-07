@@ -22,39 +22,24 @@
  * SOFTWARE.
  */
 
-
 package com.oroarmor.discordbot.commands;
 
+import java.util.List;
+
+import com.oroarmor.discordbot.DiscordBot;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
-import java.io.*;
-import java.util.List;
-
-public class ShellCommand extends Command {
-    private final String[] command;
-
-    public ShellCommand(String name, String description, String[] command) {
-        super(name, description, Permissions.OROARMOR);
-        this.command = command;
+public class ReloadCommand extends Command {
+    public ReloadCommand() {
+        super("reload", "Reloads the bot configuration", Permissions.MODERATOR);
     }
 
     @Override
     public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder(command);
-            Process process = pb.start();
-            InputStream output = process.getInputStream();
-            int code = process.waitFor();
-
-            BufferedInputStream reader = new BufferedInputStream(output);
-            String outputString = new String(reader.readAllBytes());
-
-            channel.sendMessage("Process exited with code `" + code + "`\n```"+(outputString)+"```").queue();
-        } catch (Exception e) {
-            channel.sendMessage("Error executing process. Check log for more info.").queue();
-            e.printStackTrace();
-        }
+        channel.sendMessage("Reloading the bot!").queue();
+        JDA jda = channel.getJDA();
+        DiscordBot.load(jda);
     }
 }
-

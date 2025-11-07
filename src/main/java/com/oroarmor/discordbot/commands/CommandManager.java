@@ -31,14 +31,14 @@ import java.util.TreeMap;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class CommandManager {
     private static final Map<String, Command> COMMANDS = new TreeMap<>();
     private static final Map<String, Command> ALIASES = new TreeMap<>();
     public static String PREFIX = "!";
 
-    public static void runCommand(Member member, MessageChannel channel, Message message) {
+    public static void runCommand(Member member, MessageChannelUnion channel, Message message) {
         if (message.getContentRaw().startsWith(PREFIX)) {
             List<String> tokens = Arrays.asList(message.getContentRaw().substring(1).split("\\s+"));
             boolean delete = tokens.get(tokens.size() - 1).equals("-d");

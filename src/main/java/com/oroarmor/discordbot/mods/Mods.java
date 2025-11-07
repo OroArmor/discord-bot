@@ -41,11 +41,9 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class Mods {
     private static final List<Mod> MODS = new ArrayList<>();
-    private static long lastPull = 0;
 
     private static void pullModData() {
-        if (MODS.size() == 0 || System.currentTimeMillis() - lastPull > 86400000) {
-            lastPull = System.currentTimeMillis();
+        if (MODS.isEmpty()) {
             try {
                 InputStream stream = new URL("https://oroarmor.com/api/mods.json").openStream();
                 String str = new String(stream.readAllBytes());

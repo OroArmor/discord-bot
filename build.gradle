@@ -8,7 +8,23 @@ plugins {
 
 def mainClassName = "com.oroarmor.discordbot.DiscordBot"
 
+
+
 run {
+    def f = project.file(".env")
+    if (f.exists()) {
+        f.readLines().forEach {
+            if (!it.startsWith("#") && !it.isEmpty()) {
+                def split = it.split("\\s*=\\s*", 2)
+                if (split.length == 2) {
+                    environment(split[0], split[1])
+                } else {
+                    environment(split[0], true)
+                }
+            }
+        }
+    }
+
     mainClass.set(mainClassName)
 }
 
@@ -20,7 +36,7 @@ task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
 dependencies {
-    shadow(implementation('net.dv8tion:JDA:4.3.0_314') {
+    shadow(implementation('net.dv8tion:JDA:6.1.1') {
         exclude module: 'opus-java'
     })
     shadow(implementation('com.fasterxml.jackson.core:jackson-databind:2.12.3'))

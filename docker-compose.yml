@@ -2,6 +2,8 @@ services:
   discord:
     image: ghcr.io/oroarmor/discord-bot:latest
     restart: unless-stopped
+    volumes:
+      - /run:/run
     env_file:
       - .env
     network_mode: host

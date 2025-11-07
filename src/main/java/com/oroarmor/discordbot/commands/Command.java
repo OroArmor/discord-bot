@@ -27,7 +27,7 @@ package com.oroarmor.discordbot.commands;
 import java.util.List;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public abstract class Command {
     protected final String name;
@@ -40,7 +40,7 @@ public abstract class Command {
         this.permissions = permissions;
     }
 
-    public abstract void run(Member member, MessageChannel channel, List<String> tokens);
+    public abstract void run(Member member, MessageChannelUnion channel, List<String> tokens);
 
     public String getName() {
         return name;

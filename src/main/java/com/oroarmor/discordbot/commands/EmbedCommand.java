@@ -28,7 +28,7 @@ import java.util.List;
 
 import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class EmbedCommand extends Command {
     private final String title;
@@ -43,7 +43,7 @@ public class EmbedCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle(this.title).setColor(color).setDescription(embedDescription).build()).queue();
     }
 }

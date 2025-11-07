@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class AliasesCommand extends Command {
     public AliasesCommand() {
@@ -36,7 +36,7 @@ public class AliasesCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         channel.sendMessage("Available aliases are: ```" + CommandManager.getAliases().entrySet().stream().map(e -> "!" + e.getKey() + ": " + e.getValue().getName() + " (" + e.getValue().getDescription() + ")").collect(Collectors.joining("\n")) + "```").queue();
     }
 }

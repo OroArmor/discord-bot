@@ -28,7 +28,7 @@ import java.util.List;
 
 import com.oroarmor.discordbot.DiscordBot;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class LockServerCommand extends Command {
     public LockServerCommand() {
@@ -36,7 +36,7 @@ public class LockServerCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         DiscordBot.locked = !DiscordBot.locked;
         if (DiscordBot.locked) {
             DiscordBot.logChannel.sendMessage("Locked the server").queue();

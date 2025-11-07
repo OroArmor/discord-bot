@@ -29,7 +29,7 @@ import java.util.List;
 import com.oroarmor.discordbot.mods.Mod;
 import com.oroarmor.discordbot.mods.Mods;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 import static com.oroarmor.discordbot.mods.Mods.getModEmbed;
 
@@ -39,7 +39,7 @@ public class ModCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         if (tokens.size() == 1) {
             channel.sendMessage("No mod provided! Available mods are:```" + Mods.getIds() + "```").queue();
         } else {

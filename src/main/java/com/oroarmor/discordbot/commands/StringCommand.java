@@ -27,7 +27,7 @@ package com.oroarmor.discordbot.commands;
 import java.util.List;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class StringCommand extends Command {
     protected final String message;
@@ -38,7 +38,7 @@ public class StringCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         channel.sendMessage(message).queue();
     }
 }

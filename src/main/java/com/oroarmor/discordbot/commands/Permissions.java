@@ -25,25 +25,25 @@
 package com.oroarmor.discordbot.commands;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public enum Permissions {
     ANY {
         @Override
-        public boolean validUser(Member member, MessageChannel channel) {
+        public boolean validUser(Member member, net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion channel) {
             return true;
         }
     }, MODERATOR {
         @Override
-        public boolean validUser(Member member, MessageChannel channel) {
+        public boolean validUser(Member member, MessageChannelUnion channel) {
             return member.getRoles().stream().anyMatch(role -> role.getName().equals("Mod Gang"));
         }
     }, OROARMOR {
         @Override
-        public boolean validUser(Member member, MessageChannel channel) {
+        public boolean validUser(Member member, MessageChannelUnion channel) {
             return member.getUser().getId().equals("365708770262777856");
         }
     };
 
-    public abstract boolean validUser(Member member, MessageChannel channel);
+    public abstract boolean validUser(Member member, MessageChannelUnion channel);
 }

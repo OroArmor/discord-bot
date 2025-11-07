@@ -31,7 +31,7 @@ import com.oroarmor.discordbot.mods.Mod;
 import com.oroarmor.discordbot.mods.Mods;
 import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class ModsCommand extends Command {
     public ModsCommand() {
@@ -39,9 +39,19 @@ public class ModsCommand extends Command {
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         if (tokens.size() == 1) {
-            channel.sendMessageEmbeds(new MessageEmbedBuilder().setTitle("My Mods").setDescription("My mods are: \n" + Mods.getMods().stream().map(mod -> "**" + mod.getName() + " (" + mod.getAlias() + ")**: " + mod.getDescription()).collect(Collectors.joining("\n"))).build()).queue();
+            channel.sendMessageEmbeds(
+                    new MessageEmbedBuilder()
+                            .setTitle("My Mods")
+                            .setDescription(
+                                    Mods.getMods()
+                                            .stream()
+                                            .map(mod ->
+                                                    "### **" + mod.getName() + "**:\n > Alias: " + mod.getAlias() + "\n" + mod.getDescription()
+                                            ).collect(Collectors.joining("\n\n"))
+                            ).build()
+            ).queue();
         } else {
             Mod mod = Mods.getMod(tokens.get(1));
             if (mod == null) {

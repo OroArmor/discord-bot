@@ -30,7 +30,7 @@ import java.util.Objects;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class FaqCommand extends Command{
     private long channelID;
@@ -40,7 +40,7 @@ public class FaqCommand extends Command{
     }
 
     @Override
-    public void run(Member member, MessageChannel channel, List<String> tokens) {
+    public void run(Member member, MessageChannelUnion channel, List<String> tokens) {
         if(channelID == 0) {
             member.getGuild().getChannels().forEach(guildChannel -> {
                 if(guildChannel.getName().equals("faq")) {
@@ -55,7 +55,7 @@ public class FaqCommand extends Command{
         }
 
         try {
-            List<Message> messages = ((MessageChannel) Objects.requireNonNull(member.getGuild().getGuildChannelById(channelID))).getHistoryFromBeginning(100).submit().get().getRetrievedHistory();
+            List<Message> messages = ((MessageChannelUnion) Objects.requireNonNull(member.getGuild().getGuildChannelById(channelID))).getHistoryFromBeginning(100).submit().get().getRetrievedHistory();
             for(Message message : messages) {
                 if(message.getContentStripped().startsWith(tokens.get(1))) {
                     channel.sendMessageEmbeds(new EmbedBuilder().setTitle(String.format("FAQ %s", tokens.get(1))).setDescription(message.getContentRaw()).build()).queue();
