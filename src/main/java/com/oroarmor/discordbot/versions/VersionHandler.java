@@ -45,14 +45,14 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.oroarmor.discordbot.DiscordBot;
 import com.oroarmor.discordbot.util.MessageEmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import org.jetbrains.annotations.NotNull;
 
 public class VersionHandler {
     private final List<VersionChecker> checkers;
-    private final List<TextChannel> channels;
+    private final List<GuildMessageChannel> channels;
 
-    public VersionHandler(List<TextChannel> channels, List<VersionChecker> checkers) {
+    public VersionHandler(List<GuildMessageChannel> channels, List<VersionChecker> checkers) {
         this.channels = channels;
         this.checkers = checkers;
     }
@@ -96,6 +96,8 @@ public class VersionHandler {
             };
             checkerList.add(versionChecker);
         }
+
+        System.out.println("Versions to check: " + checkerList.stream().map(VersionChecker::getName).collect(Collectors.joining(", ")));
 
         return checkerList;
     }

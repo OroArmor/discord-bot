@@ -29,7 +29,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,7 +44,7 @@ import com.oroarmor.discordbot.versions.VersionHandler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -54,7 +56,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
  */
 public class DiscordBot {
     public static boolean locked;
-    public static TextChannel logChannel;
+    public static GuildMessageChannel logChannel;
 
     public static final Path RUN_DIRECTORY = Paths.get("run");
     public static final Path CACHE_DIRECTORY = RUN_DIRECTORY.resolve("cache");
@@ -111,12 +113,18 @@ public class DiscordBot {
         try {
             JsonNode json = new JsonMapper().readTree(Files.newBufferedReader(CONFIGURATION_FILE));
 
-            logChannel = jda.getTextChannelById(json.get("log_channel").asLong());
+            logChannel = ((GuildMessageChannel) jda.getGuildChannelById(json.get("log_channel").asLong()));
+            logChannel.sendMessage("Started!").queue();
 
-            List<TextChannel> updateChannelIds = StreamSupport.stream(json.get("update_channel_ids").spliterator(), false)
+            List<GuildMessageChannel> updateChannelIds = StreamSupport.stream(json.get("update_channel_ids").spliterator(), false)
                     .mapToLong(JsonNode::asLong)
-                    .mapToObj(jda::getTextChannelById)
+                    .mapToObj(jda::getGuildChannelById)
+                    .filter(Objects::nonNull)
+                    .filter(GuildMessageChannel.class::isInstance)
+                    .map(GuildMessageChannel.class::cast)
                     .toList();
+
+            System.out.println("Update channels: " + updateChannelIds.stream().map(GuildMessageChannel::getName).collect(Collectors.joining(", ")));
 
             List<VersionHandler.VersionChecker> checkers = VersionHandler.loadFromJson(((ArrayNode) json.get("checkers")));
 
